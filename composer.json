@@ -1,0 +1,21 @@
+{
+    "name": "synatree/yii2-dynamic-relations",
+    "description": "Allows Yii2 views to contain a dynamically expanding set of fields based on model relations.",
+    "type": "yii2-extension",
+    "keywords": ["yii2","extension"],
+    "license": "GPL-3.0+",
+    "authors": [
+        {
+            "name": "David Baltusavich, SynaTree",
+            "email": "david@synatree.com"
+        }
+    ],
+    "require": {
+        "yiisoft/yii2": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "synatree\\dynamicrelations\\": ""
+        }
+    }
+}

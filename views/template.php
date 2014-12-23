@@ -1,4 +1,10 @@
-<label class="form-control">$title</label>
+<?php
+	use synatree\dynamicrelations\SynatreeAsset;
+
+	SynatreeAsset::register($this);
+?>
+
+<label class="form-control"><?= $title; ?></label>
 <ul class="list-group">
 <?php 
 	foreach($collection as $model)
@@ -12,8 +18,8 @@
 	}
 ?>
 	<li class="list-group-item">
-		<button class="btn btn-success btn-sm">
+		<a href="#" class="btn btn-success btn-sm">
 			<i class="glyphicon glyphicon-plus"></i> Add
-		</button>
+		</a>
 	</li>
 </ul>

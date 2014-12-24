@@ -33,11 +33,11 @@ Next, you must add the following to your module config:
 
 ```php
     'modules' => [
-	...
-            'dynamicrelations' => [
-                'class' => '\synatree\dynamicrelations\Module'
-            ],
-	...
+    ...
+		'dynamicrelations' => [
+			'class' => '\synatree\dynamicrelations\Module'
+		],
+    ...
 ```
 
 
@@ -68,98 +68,88 @@ $uniq = uniqid();
 
 if( $model->primaryKey )
 {
-	// you must define an attribute called "data-dynamic-relation-remove-route" if you plan to allow inline deletion of models from the form.
+    // you must define an attribute called "data-dynamic-relation-remove-route" if you plan to allow inline deletion of models from the form.
 
-        $removeAttr = 'data-dynamic-relation-remove-route="' . Url::toRoute(['business-hours/delete', 'id'=>$model->primaryKey]) . '"';
-        $frag = "BusinessHours[{$model->primaryKey}]";
+	$removeAttr = 'data-dynamic-relation-remove-route="' . 
+		Url::toRoute(['business-hours/delete', 'id'=>$model->primaryKey]) . '"';
+	$frag = "BusinessHours[{$model->primaryKey}]";
 }
 else
 {
-        $removeAttr = "";
-	// new models must go under a key called "[new]"
-        $frag = "BusinessHours[new][$uniq]";
+    $removeAttr = "";
+    // new models must go under a key called "[new]"
+    $frag = "BusinessHours[new][$uniq]";
 }
 
 ?>
 <div class="BusinessHours-form form-inline" <?= $removeAttr; ?>>
 
     <?= DateControl::widget([
-                'type' => DateControl::FORMAT_DATE,
-                'name' => $frag.'[day]', // expanded, this ends up being something like BusinessHours[1][day] or BusinessHours[new][random][day]
-                'value' => $model->day,
-		// for Kartik widgets, include the following line.  This basically generates a globally unique set of pluginOptions, which is important to prevent
-		// javascript errors and make sure everything works as expected.
-                'options' => DynamicRelations::uniqueOptions('day',$uniq)
-        ]);?>
-
+			'type' => DateControl::FORMAT_DATE,
+			'name' => $frag.'[day]', // expanded, this ends up being something like BusinessHours[1][day] or BusinessHours[new][random][day]
+			'value' => $model->day,
+			// for Kartik widgets, include the following line.  This basically generates a globally unique set of pluginOptions, which is important to prevent
+			// javascript errors and make sure everything works as expected.
+			'options' => DynamicRelations::uniqueOptions('day',$uniq)
+    ]);?>
     .... More widgets use the same structure as above .... 
 </div>
 ```
-
-The final step is to setup the controller to save the related models you're expecting to receive.
+The next step is to setup the controller to save the related models you're expecting to receive.
 
 ```php
-
 use synatree\dynamicrelations\DynamicRelations;
 use app\models\BusinessHours;
 use yii\web\Controller;
 
 class SomeController extends Controller
 {
-	/**
-	     * Creates a new SomethingModel model.
-	     * If creation is successful, the browser will be redirected to the 'view' page.
-	     * @return mixed
-	*/
+    /**
+	 * Creates a new SomethingModel model.
+	 * If creation is successful, the browser will be redirected to the 'view' page.
+	 * @return mixed
+    */
 
-	public function actionCreate()
-	{
-		$model = new SomethingModel();
+    public function actionCreate()
+    {
+        $model = new SomethingModel();
 
-	        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-		    // this next line is the only one added to a standard Gii-created controller action:
+            if ($model->load(Yii::$app->request->post()) && $model->save()) {
+				// this next line is the only one added to a standard Gii-created controller action:
+                DynamicRelations::relate($model, 'hours', Yii::$app->request->post(), 'BusinessHours', BusinessHours::className());
+                //           Parent Model --^       ^-- Attribute    ^-- Array to search  ^-- Root Key  ^-- Model Class Name
+                return $this->redirect(['view', 'id' => $model->primaryKey]);
+            } else {
+                return $this->render('create', [
+                    'model' => $model,
+                ]);
+            }
+    }
 
-	            DynamicRelations::relate($model, 'hours', Yii::$app->request->post(), 'BusinessHours', BusinessHours::className());
-			    //		Parent Model --^       ^-- Attribute    ^-- Array to search  ^-- Root Key  ^-- Model Class Name
-	            return $this->redirect(['view', 'id' => $model->primaryKey]);
-	        } else {
-	            return $this->render('create', [
-	                'model' => $model,
-        	    ]);
-	        }
-	}
-
-	public function actionUpdate($id)
-	{
-		...
-
-		if ($model->save()) {
-			// this next line exactly the same as in actionCreate:
-
-                        DynamicRelations::relate($model, 'hours', Yii::$app->request->post(), 'BusinessHours', BusinessHours::className());
-
-                        return $this->redirect(['view', 'id' => $model->boatShowId]);
-                } else {
-                    return $this->render('update', [
-                        'model' => $model,
-                    ]);
-                }
-
-		...
-	}
+    public function actionUpdate($id)
+    {
+        ...
+        if ($model->save()) {
+            // this next line exactly the same as in actionCreate:
+            DynamicRelations::relate($model, 'hours', Yii::$app->request->post(), 'BusinessHours', BusinessHours::className());
+            return $this->redirect(['view', 'id' => $model->boatShowId]);
+        } else {
+            return $this->render('update', [
+                'model' => $model,
+            ]);
+        }
+        ...
+    }
 }
-
 ```
-
 Finally, in your view for the parent model:
 
 ```php
 use synatree\dynamicrelations\DynamicRelations;
 <?= DynamicRelations::widget([
-                'title' => 'Business Hours',
-                'collection' => $model->hours,
-                'viewPath' => '@app/views/business-hours/_inline.php'
+	'title' => 'Business Hours',
+	'collection' => $model->hours,
+	'viewPath' => '@app/views/business-hours/_inline.php'
 ]); ?>
 ```
-
 That should do it.  I hope this helps people, I really wanted this feature.

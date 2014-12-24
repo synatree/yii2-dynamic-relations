@@ -120,7 +120,7 @@ class SomeController extends Controller
 		    // this next line is the only one added to a standard Gii-created controller action:
 
 	            DynamicRelations::relate($model, 'hours', Yii::$app->request->post(), 'BusinessHours', BusinessHours::className());
-		    //		Parent Model --^       ^-- Attribute    ^-- Array to search  ^-- Root Key  ^-- Model Class Name
+			    //		Parent Model --^       ^-- Attribute    ^-- Array to search  ^-- Root Key  ^-- Model Class Name
 	            return $this->redirect(['view', 'id' => $model->primaryKey]);
 	        } else {
 	            return $this->render('create', [
@@ -149,6 +149,17 @@ class SomeController extends Controller
 	}
 }
 
+```
+
+Finally, in your view for the parent model:
+
+```php
+use synatree\dynamicrelations\DynamicRelations;
+<?= DynamicRelations::widget([
+                'title' => 'Business Hours',
+                'collection' => $model->hours,
+                'viewPath' => '@app/views/business-hours/_inline.php'
+]); ?>
 ```
 
 That should do it.  I hope this helps people, I really wanted this feature.

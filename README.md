@@ -1,5 +1,18 @@
 Dynamic Relations Extension
 ===========================
+
+This extension came about after I googled in vain for such things as:
+
+- Create 'child' models from a 'master' view dynamically
+- Add Inputs to Yii2 views dynamically
+- Use Yii2 widgets in related models
+- Add fields to a form dynamically
+
+Hopefully the above saves somebody else some time searching.
+
+What does this do?
+------------------
+
 Allows Yii2 views to contain a dynamically expanding set of fields based on model relations.
 
 This system allows you to define a view, conventionally called _inline.php, that will be auto-loaded each time a user hits the "add" button on your form.

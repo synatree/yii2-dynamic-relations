@@ -12,6 +12,8 @@ Hopefully the above saves somebody else some time searching.
 
 What does this do?
 ------------------
+Sometimes a picture is worth 1000 words:
+![Screenshot of Basic Functionality](http://synatree.com/assets/persist/yii2-dynamic-relations-example.png "Screenshot of Basic Functionality")
 
 Allows Yii2 views to contain a dynamically expanding set of fields based on model relations.
 

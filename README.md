@@ -31,13 +31,13 @@ The preferred way to install this extension is through [composer](http://getcomp
 Either run
 
 ```
-php composer.phar require --prefer-dist synatree/yii2-dynamic-relations "*"
+php composer.phar require synatree/yii2-dynamic-relations "dev-master"
 ```
 
 or add
 
 ```
-"synatree/yii2-dynamic-relations": "*"
+"synatree/yii2-dynamic-relations": "dev-master"
 ```
 
 to the require section of your `composer.json` file.

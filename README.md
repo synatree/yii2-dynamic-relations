@@ -23,7 +23,9 @@ Behind the scenes, the module takes care of saving the related records if they a
 
 Basically this is a way to add an arbitrarily expanding set of related records to your model using Ajax.
 
-It's also been designed to intellegently move the JavaScripts and event bindings that your view's widgets may use so as not to conflict with each other when multiple "identical" views are added via ajax.
+It's also been designed to intellegently move the JavaScripts and event bindings that your view's widgets may use so as not to conflict with each other when multiple "identical" views are added via ajax.  Frankly, it's managing the JavaScript conflicts that arise that is the largest time-saver here.
+
+I'm not sure how big of a deal the security implications actually are, but to be safe I've also implemented the ajax request portions of the code tied to the user's session, so replaying the same requests after the user has lost their session should not be possible.  The way it's setup also basically hides the real name and path of the inline view; I just didn't like the idea of the script leaking server-side file paths in the HTML code.
 
 Installation
 ------------

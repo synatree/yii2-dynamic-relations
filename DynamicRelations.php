@@ -11,6 +11,7 @@ class DynamicRelations extends Widget
 {
 	public $title;
 	public $collection;
+	public $collectionType;
 	public $viewPath;
 
 	public function init(){
@@ -22,10 +23,17 @@ class DynamicRelations extends Widget
 		if( count($this->collection) && is_object($this->collection[0]) )
 		{
 			$type = get_class( $this->collection[0] );
-			$key = "dynamic-relations-$type";
-			$hash = crc32($key);
-			Yii::$app->session->set('dynamic-relations-'.$hash, [ 'path'=>$this->viewPath, 'cls'=>$type ]);
 		}
+		elseif( is_object($this->collectionType)) {
+			$type = get_class($this->collectionType);
+		}
+		else{
+			throw new \yii\web\HttpException(500, "No Collection Type Specified, and Collection Empty.");
+		}
+		$key = "dynamic-relations-$type";
+		$hash = crc32($key);
+		Yii::$app->session->set('dynamic-relations-'.$hash, [ 'path'=>$this->viewPath, 'cls'=>$type ]);
+
 		return $this->render('template', [
 			'title' => $this->title,
 			'collection' => $this->collection,

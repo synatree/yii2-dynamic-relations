@@ -166,7 +166,11 @@ use synatree\dynamicrelations\DynamicRelations;
 <?= DynamicRelations::widget([
 	'title' => 'Business Hours',
 	'collection' => $model->hours,
-	'viewPath' => '@app/views/business-hours/_inline.php'
+	'viewPath' => '@app/views/business-hours/_inline.php',
+
+	// this next line is only needed if there is a chance that the collection above will be empty.  This gives the script a prototype to work with.
+	'collectionType' => new \app\models\BusinessHours,
+
 ]); ?>
 ```
 That should do it.  I hope this helps people, I really wanted this feature.

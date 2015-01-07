@@ -110,7 +110,7 @@ else
     .... More widgets use the same structure as above .... 
 </div>
 ```
-The next step is to setup the controller to save the related models you're expecting to receive.
+The next step is to setup the controller to save the related models you're expecting to receive.  In the below example, we only have to add one small line to each of the create and update action methods.
 
 ```php
 use synatree\dynamicrelations\DynamicRelations;
@@ -157,7 +157,7 @@ class SomeController extends Controller
     }
 }
 ```
-Finally, in your view for the parent model:
+Finally, in your view for the parent model, include lines like the following for each related model you want to add dynamically.
 
 ```php
 use synatree\dynamicrelations\DynamicRelations;

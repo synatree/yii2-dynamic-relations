@@ -164,7 +164,7 @@ In order to support Ajax delete of related records, modify your related model co
 
 ```php
  /**
-     * Deletes an existing ClassDate model.
+     * Deletes an existing BusinessHours model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed

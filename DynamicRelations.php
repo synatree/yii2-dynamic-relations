@@ -62,7 +62,7 @@ class DynamicRelations extends Widget
 				foreach( $new as $useless=>$newattrs)
 				{
 					$newmodel = new $clsname;
-					$newmodel->load( [$name => $newattrs] );
+					$newmodel->load( $new,$useless );
 					$model->link($attr, $newmodel);		
 				}
 				unset( $request[$name]['new'] );

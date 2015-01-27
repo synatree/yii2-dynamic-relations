@@ -159,6 +159,32 @@ class SomeController extends Controller
     }
 }
 ```
+
+In order to support Ajax delete of related records, modify your related model controller:
+
+```php
+ /**
+     * Deletes an existing ClassDate model.
+     * If deletion is successful, the browser will be redirected to the 'index' page.
+     * @param integer $id
+     * @return mixed
+     */
+    public function actionDelete($id)
+    {
+        $this->findModel($id)->delete();
+        if(! Yii::$app->request->isAjax){
+                return $this->redirect(['index']);
+        }
+        else
+        {
+                return "OK";
+        }
+    }
+
+
+```
+
+
 Finally, in your view for the parent model, include lines like the following for each related model you want to add dynamically.
 
 ```php

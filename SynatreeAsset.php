@@ -10,4 +10,7 @@ class SynatreeAsset extends AssetBundle {
 	public $js = [
 		'js/dynamic-relations.js'
 	];
+	public $depends = [
+		'yii\web\JqueryAsset',
+	];
 }

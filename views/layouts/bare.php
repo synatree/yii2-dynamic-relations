@@ -1,11 +1,12 @@
 <?php
 use yii\helpers\Html;
-use app\assets\AppAsset;
+use synatree\dynamicrelations\Module;
 
 /* @var $this \yii\web\View */
 /* @var $content string */
 
-AppAsset::register($this);
+$assetClass = Module::getInstance()->appAsset;
+$assetClass::register($this);
 
 $this->beginPage();
 ?>
